@@ -889,8 +889,10 @@ def simxSetStringSignal(clientID, signalName, signalValue, operationMode):
     '''
     Please have a look at the function description/documentation in the V-REP user manual
     '''
+    bf = create_string_buffer(signalValue, len(signalValue))
+    pbf = cast(bf, POINTER(c_ubyte))
 
-    return c_SetStringSignal(clientID, signalName, signalValue, len(signalValue), operationMode)
+    return c_SetStringSignal(clientID, signalName, pbf, len(signalValue), operationMode)
 
 def simxAppendStringSignal(clientID, signalName, signalValue, operationMode):
     '''

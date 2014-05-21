@@ -38,6 +38,7 @@ import sys  # System library
 #import i2c # Ground sensors are directly connected to the overo's i2c bus
 import vrep # Interface to the V-REP simulator
 import math
+import ctypes
 
 __package__ = "ePuck"
 __docformat__ = "restructuredtext"
@@ -223,7 +224,9 @@ class ePuck():
         for m in actuators:
             if m[0] == 'L':
                 # Leds
-                self._debug('WARNING: LEDs not yet implemented!')
+                # Sent as packed string to ensure update of the wanted LED
+                test = vrep.simxPackInts([m[1]+1, m[2]])
+                vrep.simxSetStringSignal(self._clientID, 'EPUCK_LED', test, vrep.simx_opmode_oneshot_wait)
 
             elif m[0] == 'D':
                 # Set motor speed
