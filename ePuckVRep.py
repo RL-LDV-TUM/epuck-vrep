@@ -294,8 +294,9 @@ class ePuck():
                     self._debug("WARNING: Floor 2 sensor readout failed:", res)
                 res, floor3 = vrep.simxGetFloatSignal(self._clientID, 'EPUCK_mylightSens_2', vrep.simx_opmode_streaming)
                 if res != vrep.simx_return_ok:
-                    self._debug("WARNING: Floor 3 sensor readout failed:", res)                    
-                self._floor_sensors = (floor1, floor2, floor3)                
+                    self._debug("WARNING: Floor 3 sensor readout failed:", res)
+                # Scale returned values to mimic real robot; current factor is just guessed                    
+                self._floor_sensors = (floor1*1800, floor2*1800, floor3*1800)                
 
             elif s == 'q':
                 # Motor position sensor
