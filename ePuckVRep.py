@@ -281,20 +281,26 @@ class ePuck():
 
             elif s == 'n':
                 # Proximity sensors
-                parameters = ('N', 20, '@HHHHHHHHHH')
-                self._debug('WARNING: Proximity not yet implemented!')
+                res, prox = vrep.simxGetStringSignal(self._clientID, 'EPUCK_proxSens', vrep.simx_opmode_streaming)
+                if res != vrep.simx_return_ok:
+                    self._debug("WARNING: Proximity sensors readout failed: ", res)
+                else:
+                    proxVals = vrep.simxUnpackFloats(prox)
+                    # TODO: Find out actual needed scaling factor 
+                    proxVals = [int(x * 1000) for x in proxVals]
+                    self._proximity = tuple(proxVals)
 
             elif s == 'm':
                 # Floor sensors
                 res, floor1 = vrep.simxGetFloatSignal(self._clientID, 'EPUCK_mylightSens_0', vrep.simx_opmode_streaming)
                 if res != vrep.simx_return_ok:
-                    self._debug("WARNING: Floor 1 sensor readout failed:", res)
+                    self._debug("WARNING: Floor 1 sensor readout failed: ", res)
                 res, floor2 = vrep.simxGetFloatSignal(self._clientID, 'EPUCK_mylightSens_1', vrep.simx_opmode_streaming)
                 if res != vrep.simx_return_ok:
-                    self._debug("WARNING: Floor 2 sensor readout failed:", res)
+                    self._debug("WARNING: Floor 2 sensor readout failed: ", res)
                 res, floor3 = vrep.simxGetFloatSignal(self._clientID, 'EPUCK_mylightSens_2', vrep.simx_opmode_streaming)
                 if res != vrep.simx_return_ok:
-                    self._debug("WARNING: Floor 3 sensor readout failed:", res)
+                    self._debug("WARNING: Floor 3 sensor readout failed: ", res)
                 # Scale returned values to mimic real robot; current factor is just guessed                    
                 self._floor_sensors = (floor1*1800, floor2*1800, floor3*1800)                
 
