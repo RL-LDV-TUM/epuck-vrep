@@ -5,5 +5,4 @@ Overo extension or the V-REP simulator without much change.
 This libray is written in Python 2.7 and needs the remoteApi.[so|dll|dylib] from
 the V-REP simulator to run.
 
-At the moment it doesn't do much apart from setting the motor speed, but this
-should change soon.
+Currently motors, leds, ground- and proximity sensors should work.
