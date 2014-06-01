@@ -644,10 +644,6 @@ class ePuck():
                             self.timestamp = time.time()
                         except:
                             break
-                if sensor == "floor" and self._i2cbus == None:
-                    # Initialize i2c bus
-                    self._i2cbus = i2c.I2cBus(3)
-                    self._i2cdev = self._i2cbus[0x60]
 
                 if DIC_SENSORS[sensor] not in self._sensors_to_read:
                     l = list(self._sensors_to_read)
