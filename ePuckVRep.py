@@ -306,8 +306,27 @@ class ePuck():
 
             elif s == 'q':
                 # Motor position sensor
-                parameters = ('Q', 4, '@HH')
-                self._debug('WARNING: Motor position not yet implemented!')
+                # First: Get the handles of both motor joints
+                res, leftMotor = vrep.simxGetObjectHandle(self._clientID, 'ePuck_leftJoint', vrep.simx_opmode_oneshot_wait)
+                if res != vrep.simx_return_ok:
+                    self._debug("WARNING: Unable to get handle of left motor: ", res)
+                    continue
+                res, rightMotor = vrep.simxGetObjectHandle(self._clientID, 'ePuck_rightJoint', vrep.simx_opmode_oneshot_wait)
+                if res != vrep.simx_return_ok:
+                    self._debug("WARNING: Unable to get handle of right motor: ", res)
+                    continue
+
+                # Second: Get the actual motor position (in radians)
+                res, leftPos = vrep.simxGetJointPosition(self._clientID, leftMotor, vrep.simx_opmode_oneshot_wait)
+                if res != vrep.simx_return_ok:
+                    self._debug("WARNING: Readout of left motor failed: ", res)
+                    continue
+                res, rightPos = vrep.simxGetJointPosition(self._clientID, rightMotor, vrep.simx_opmode_streaming)
+                if res != vrep.simx_return_ok:
+                    self._debug("WARNING: Readout of left motor failed: ", res)
+                    continue
+
+                self._motor_position = (leftPos, rightPos)
 
             elif s == 'o':
                 # Light sensors
@@ -644,6 +663,9 @@ class ePuck():
                             self.timestamp = time.time()
                         except:
                             break
+
+                if sensor == "motor_position":
+                    self._debug("INFO: motor_position currently returns the actual angle of the motor joints in V-REP [-pi:pi] and is therefore not compatible with the actual robot.")
 
                 if DIC_SENSORS[sensor] not in self._sensors_to_read:
                     l = list(self._sensors_to_read)
