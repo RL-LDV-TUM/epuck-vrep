@@ -355,6 +355,40 @@ class ePuck():
     # Public methods
     #
 
+    def startsim(self):
+        """
+        Start the simulation in synchronous mode to achieve exact simulation
+        independent of the framerate. To be able to do this, you have to 
+        connec to the port 19997 of vrep, edit the file
+        `remoteApiConnections.txt` to contain something like
+
+            portIndex1_port           = 19997
+            portIndex1_debug          = true
+            portIndex1_syncSimTrigger = false
+
+        """
+        self.set_led(8,0)
+        vrep.simxStartSimulation(self._clientID, vrep.simx_opmode_oneshot)
+        vrep.simxSynchronous(self._clientID, True)
+        self.stepsim(1)
+
+    def stopsim(self):
+        """
+        Stop the simulation if running in the syncronous mode.
+        """
+        self.set_led(8,1)
+        vrep.simxStopSimulation(self._clientID, vrep.simx_opmode_oneshot)
+
+    def stepsim(self, steps):
+        """
+        Do n-steps of simulation.
+
+        :param steps: Number of steps you want to simulate
+        :type steps: int
+        """
+        for i in xrange(steps):
+            vrep.simxSynchronousTrigger(self._clientID)
+
     def connect(self):
         """
         Connect to the V-REP simulator
