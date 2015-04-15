@@ -1,6 +1,6 @@
 # This file is part of the REMOTE API
 # 
-# Copyright 2006-2014 Dr. Marc Andreas Freese. All rights reserved. 
+# Copyright 2006-2014 Coppelia Robotics GmbH. All rights reserved. 
 # marc@coppeliarobotics.com
 # www.coppeliarobotics.com
 # 
@@ -12,16 +12,19 @@
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 # 
-# The REMOTE API is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# THE REMOTE API IS DISTRIBUTED "AS IS", WITHOUT ANY EXPRESS OR IMPLIED
+# WARRANTY. THE USER WILL USE IT AT HIS/HER OWN RISK. THE ORIGINAL
+# AUTHORS AND COPPELIA ROBOTICS GMBH WILL NOT BE LIABLE FOR DATA LOSS,
+# DAMAGES, LOSS OF PROFITS OR ANY OTHER KIND OF LOSS WHILE USING OR
+# MISUSING THIS SOFTWARE.
+# 
+# See the GNU General Public License for more details.
 # 
 # You should have received a copy of the GNU General Public License
 # along with the REMOTE API.  If not, see <http://www.gnu.org/licenses/>.
 # -------------------------------------------------------------------
 #
-# This file was automatically created for V-REP release V3.1.1 on March 26th 2014
+# This file was automatically created for V-REP release V3.2.0 on Feb. 3rd 2015
 
 #constants
 #Scene object types. Values are serialized
@@ -297,6 +300,11 @@ sim_handle_all_except_self			=-10
 sim_handle_parent					=-11
 
 
+# special handle flags
+sim_handleflag_assembly				=0x400000
+sim_handleflag_model				=0x800000
+
+
 # distance calculation methods (serialized) 
 sim_distcalcmethod_dl               =0
 sim_distcalcmethod_dac              =1
@@ -472,6 +480,20 @@ sim_intparam_event_flags_read       =17 # can only be read
 sim_intparam_event_flags_read_clear =18 # can only be read 
 sim_intparam_platform               =19 # can only be read 
 sim_intparam_scene_unique_id        =20 # can only be read 
+sim_intparam_work_thread_count      =21
+sim_intparam_mouse_x                =22
+sim_intparam_mouse_y                =23
+sim_intparam_core_count             =24
+sim_intparam_work_thread_calc_time_ms =25
+sim_intparam_idle_fps               =26
+sim_intparam_prox_sensor_select_down =27
+sim_intparam_prox_sensor_select_up  =28
+sim_intparam_stop_request_counter   =29
+sim_intparam_program_revision       =30
+sim_intparam_mouse_buttons          =31
+sim_intparam_dynamic_warning_disabled_mask =32
+sim_intparam_simulation_warning_disabled_mask =33
+sim_intparam_scene_index            =34
 
 # Float parameters 
 sim_floatparam_rand=0 # random value (0.0-1.0) 

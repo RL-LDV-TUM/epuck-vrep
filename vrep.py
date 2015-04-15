@@ -1,6 +1,6 @@
 # This file is part of the REMOTE API
 # 
-# Copyright 2006-2014 Dr. Marc Andreas Freese. All rights reserved. 
+# Copyright 2006-2014 Coppelia Robotics GmbH. All rights reserved. 
 # marc@coppeliarobotics.com
 # www.coppeliarobotics.com
 # 
@@ -12,16 +12,19 @@
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 # 
-# The REMOTE API is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+# THE REMOTE API IS DISTRIBUTED "AS IS", WITHOUT ANY EXPRESS OR IMPLIED
+# WARRANTY. THE USER WILL USE IT AT HIS/HER OWN RISK. THE ORIGINAL
+# AUTHORS AND COPPELIA ROBOTICS GMBH WILL NOT BE LIABLE FOR DATA LOSS,
+# DAMAGES, LOSS OF PROFITS OR ANY OTHER KIND OF LOSS WHILE USING OR
+# MISUSING THIS SOFTWARE.
+# 
+# See the GNU General Public License for more details.
 # 
 # You should have received a copy of the GNU General Public License
 # along with the REMOTE API.  If not, see <http://www.gnu.org/licenses/>.
 # -------------------------------------------------------------------
 #
-# This file was automatically created for V-REP release V3.1.1 on March 26th 2014
+# This file was automatically created for V-REP release V3.2.0 on Feb. 3rd 2015
 
 import platform
 import struct
@@ -44,7 +47,7 @@ c_GetJointMatrix            = CFUNCTYPE(c_int32,c_int32, c_int32, POINTER(c_floa
 c_SetSphericalJointMatrix   = CFUNCTYPE(c_int32,c_int32, c_int32, POINTER(c_float), c_int32)(("simxSetSphericalJointMatrix", libsimx))
 c_SetJointTargetVelocity    = CFUNCTYPE(c_int32,c_int32, c_int32, c_float, c_int32)(("simxSetJointTargetVelocity", libsimx))
 c_SetJointTargetPosition    = CFUNCTYPE(c_int32,c_int32, c_int32, c_float, c_int32)(("simxSetJointTargetPosition", libsimx))
-c_JointGetForce             = CFUNCTYPE(c_int32,c_int32, c_int32, POINTER(c_float), c_int32)(("simxJointGetForce", libsimx))
+c_GetJointForce             = CFUNCTYPE(c_int32,c_int32, c_int32, POINTER(c_float), c_int32)(("simxGetJointForce", libsimx))
 c_SetJointForce             = CFUNCTYPE(c_int32,c_int32, c_int32, c_float, c_int32)(("simxSetJointForce", libsimx))
 c_ReadForceSensor           = CFUNCTYPE(c_int32,c_int32, c_int32, POINTER(c_ubyte), POINTER(c_float), POINTER(c_float), c_int32)(("simxReadForceSensor", libsimx))
 c_BreakForceSensor          = CFUNCTYPE(c_int32,c_int32, c_int32, c_int32)(("simxBreakForceSensor", libsimx))
@@ -94,6 +97,7 @@ c_GetDistanceHandle         = CFUNCTYPE(c_int32,c_int32, POINTER(c_char), POINTE
 c_ReadCollision             = CFUNCTYPE(c_int32,c_int32, c_int32, POINTER(c_ubyte), c_int32)(("simxReadCollision", libsimx))
 c_ReadDistance              = CFUNCTYPE(c_int32,c_int32, c_int32, POINTER(c_float), c_int32)(("simxReadDistance", libsimx))
 c_RemoveObject              = CFUNCTYPE(c_int32,c_int32, c_int32, c_int32)(("simxRemoveObject", libsimx))
+c_RemoveModel               = CFUNCTYPE(c_int32,c_int32, c_int32, c_int32)(("simxRemoveModel", libsimx))
 c_RemoveUI                  = CFUNCTYPE(c_int32,c_int32, c_int32, c_int32)(("simxRemoveUI", libsimx))
 c_CloseScene                = CFUNCTYPE(c_int32,c_int32, c_int32)(("simxCloseScene", libsimx))
 c_GetObjects                = CFUNCTYPE(c_int32,c_int32, c_int32, POINTER(c_int32), POINTER(POINTER(c_int32)), c_int32)(("simxGetObjects", libsimx))
@@ -114,6 +118,7 @@ c_SetFloatSignal            = CFUNCTYPE(c_int32,c_int32, POINTER(c_char), c_floa
 c_SetIntegerSignal          = CFUNCTYPE(c_int32,c_int32, POINTER(c_char), c_int32, c_int32)(("simxSetIntegerSignal", libsimx))
 c_SetStringSignal           = CFUNCTYPE(c_int32,c_int32, POINTER(c_char), POINTER(c_ubyte), c_int32, c_int32)(("simxSetStringSignal", libsimx))
 c_AppendStringSignal        = CFUNCTYPE(c_int32,c_int32, POINTER(c_char), POINTER(c_ubyte), c_int32, c_int32)(("simxAppendStringSignal", libsimx))
+c_WriteStringStream       	= CFUNCTYPE(c_int32,c_int32, POINTER(c_char), POINTER(c_ubyte), c_int32, c_int32)(("simxWriteStringStream", libsimx))
 c_GetObjectFloatParameter   = CFUNCTYPE(c_int32,c_int32, c_int32, c_int32, POINTER(c_float), c_int32)(("simxGetObjectFloatParameter", libsimx))
 c_SetObjectFloatParameter   = CFUNCTYPE(c_int32,c_int32, c_int32, c_int32, c_float, c_int32)(("simxSetObjectFloatParameter", libsimx))
 c_GetObjectIntParameter     = CFUNCTYPE(c_int32,c_int32, c_int32, c_int32, POINTER(c_int32), c_int32)(("simxGetObjectIntParameter", libsimx))
@@ -135,6 +140,7 @@ c_ReleaseBuffer             = CFUNCTYPE(None, c_void_p)(("simxReleaseBuffer", li
 c_TransferFile              = CFUNCTYPE(c_int32,c_int32, POINTER(c_char), POINTER(c_char), c_int32, c_int32)(("simxTransferFile", libsimx))
 c_EraseFile                 = CFUNCTYPE(c_int32,c_int32, POINTER(c_char), c_int32)(("simxEraseFile", libsimx))
 c_GetAndClearStringSignal   = CFUNCTYPE(c_int32,c_int32, POINTER(c_char), POINTER(POINTER(c_ubyte)), POINTER(c_int32), c_int32)(("simxGetAndClearStringSignal", libsimx))
+c_ReadStringStream   		= CFUNCTYPE(c_int32,c_int32, POINTER(c_char), POINTER(POINTER(c_ubyte)), POINTER(c_int32), c_int32)(("simxReadStringStream", libsimx))
 c_CreateDummy      			= CFUNCTYPE(c_int32,c_int32, c_float, POINTER(c_ubyte), POINTER(c_int32), c_int32)(("simxCreateDummy", libsimx))
 c_Query           			= CFUNCTYPE(c_int32,c_int32, POINTER(c_char), POINTER(c_ubyte), c_int32, POINTER(c_char), POINTER(POINTER(c_ubyte)), POINTER(c_int32), c_int32)(("simxQuery", libsimx))
 c_GetObjectGroupData		= CFUNCTYPE(c_int32,c_int32, c_int32, c_int32, POINTER(c_int32), POINTER(POINTER(c_int32)), POINTER(c_int32), POINTER(POINTER(c_int32)), POINTER(c_int32), POINTER(POINTER(c_float)), POINTER(c_int32), POINTER(POINTER(c_char)), c_int32)(("simxGetObjectGroupData", libsimx))
@@ -193,7 +199,14 @@ def simxJointGetForce(clientID, jointHandle, operationMode):
     Please have a look at the function description/documentation in the V-REP user manual
     '''
     force = c_float()
-    return c_JointGetForce(clientID, jointHandle, byref(force), operationMode), force.value
+    return c_GetJointForce(clientID, jointHandle, byref(force), operationMode), force.value
+
+def simxGetJointForce(clientID, jointHandle, operationMode):
+    '''
+    Please have a look at the function description/documentation in the V-REP user manual
+    '''
+    force = c_float()
+    return c_GetJointForce(clientID, jointHandle, byref(force), operationMode), force.value
 
 def simxSetJointForce(clientID, jointHandle, force, operationMode):
     '''
@@ -244,7 +257,7 @@ def simxReadVisionSensor(clientID, sensorHandle, operationMode):
         c_ReleaseBuffer(auxValues)
         c_ReleaseBuffer(auxValuesCount)
 
-    return ret, bool(detectionState.value!='\0'), auxValues2 
+    return ret, bool(detectionState.value!=0), auxValues2 
 
 def simxGetObjectHandle(clientID, objectName, operationMode):
     '''
@@ -331,7 +344,7 @@ def simxReadProximitySensor(clientID, sensorHandle, operationMode):
     arr2 = []
     for i in range(3):
         arr2.append(detectedSurfaceNormalVector[i])	
-    return ret, bool(detectionState.value!='\0'), arr1, detectedObjectHandle.value, arr2
+    return ret, bool(detectionState.value!=0), arr1, detectedObjectHandle.value, arr2
 
 def simxLoadModel(clientID, modelPathAndName, options, operationMode):
     '''
@@ -588,7 +601,7 @@ def simxGetBooleanParameter(clientID, paramIdentifier, operationMode):
     '''
 
     paramValue = c_ubyte()
-    return c_GetBooleanParameter(clientID, paramIdentifier, byref(paramValue), operationMode), bool(paramValue.value!='\0')
+    return c_GetBooleanParameter(clientID, paramIdentifier, byref(paramValue), operationMode), bool(paramValue.value!=0)
 
 def simxSetBooleanParameter(clientID, paramIdentifier, paramValue, operationMode):
     '''
@@ -664,7 +677,7 @@ def simxReadCollision(clientID, collisionObjectHandle, operationMode):
     Please have a look at the function description/documentation in the V-REP user manual
     '''
     collisionState = c_ubyte()
-    return c_ReadCollision(clientID, collisionObjectHandle, byref(collisionState), operationMode), bool(collisionState.value!='\0')
+    return c_ReadCollision(clientID, collisionObjectHandle, byref(collisionState), operationMode), bool(collisionState.value!=0)
 
 def simxReadDistance(clientID, distanceObjectHandle, operationMode):
     '''
@@ -680,6 +693,13 @@ def simxRemoveObject(clientID, objectHandle, operationMode):
     '''
 
     return c_RemoveObject(clientID, objectHandle, operationMode)
+
+def simxRemoveModel(clientID, objectHandle, operationMode):
+    '''
+    Please have a look at the function description/documentation in the V-REP user manual
+    '''
+
+    return c_RemoveModel(clientID, objectHandle, operationMode)
 
 def simxRemoveUI(clientID, uiHandle, operationMode):
     '''
@@ -871,6 +891,22 @@ def simxGetAndClearStringSignal(clientID, signalName, operationMode):
 
     return ret, str(a)
 	
+def simxReadStringStream(clientID, signalName, operationMode):
+    '''
+    Please have a look at the function description/documentation in the V-REP user manual
+    '''
+
+    signalLength = c_int();
+    signalValue = pointer(c_ubyte())
+    ret = c_ReadStringStream(clientID, signalName, byref(signalValue), byref(signalLength), operationMode)
+
+    a = bytearray()
+    if ret == 0:
+        for i in range(signalLength.value):
+            a.append(signalValue[i])
+
+    return ret, str(a)
+	
 def simxSetFloatSignal(clientID, signalName, signalValue, operationMode):
     '''
     Please have a look at the function description/documentation in the V-REP user manual
@@ -889,10 +925,8 @@ def simxSetStringSignal(clientID, signalName, signalValue, operationMode):
     '''
     Please have a look at the function description/documentation in the V-REP user manual
     '''
-    bf = create_string_buffer(signalValue, len(signalValue))
-    pbf = cast(bf, POINTER(c_ubyte))
 
-    return c_SetStringSignal(clientID, signalName, pbf, len(signalValue), operationMode)
+    return c_SetStringSignal(clientID, signalName, signalValue, len(signalValue), operationMode)
 
 def simxAppendStringSignal(clientID, signalName, signalValue, operationMode):
     '''
@@ -900,6 +934,13 @@ def simxAppendStringSignal(clientID, signalName, signalValue, operationMode):
     '''
 
     return c_AppendStringSignal(clientID, signalName, signalValue, len(signalValue), operationMode)
+
+def simxWriteStringStream(clientID, signalName, signalValue, operationMode):
+    '''
+    Please have a look at the function description/documentation in the V-REP user manual
+    '''
+
+    return c_WriteStringStream(clientID, signalName, signalValue, len(signalValue), operationMode)
 
 def simxGetObjectFloatParameter(clientID, objectHandle, parameterID, operationMode):
     '''
@@ -1115,7 +1156,7 @@ def simxGetObjectVelocity(clientID, objectHandle, operationMode):
     '''
     linearVel  = (c_float*3)()
     angularVel = (c_float*3)()
-    ret = c_ReadForceSensor(clientID, objectHandle, linearVel, angularVel, operationMode)
+    ret = c_GetObjectVelocity(clientID, objectHandle, linearVel, angularVel, operationMode)
     arr1 = []
     for i in range(3):
         arr1.append(linearVel[i])	
